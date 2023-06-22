@@ -15,6 +15,14 @@ const student = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  // referencing the school model and it's called association in nested Schema:
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    // ei ref er maddomei school er model ti reference hoye jabe student model er sathe:
+    // ar ei ref er name to hobe amar school model er collection er name ja ta:
+    ref: "school",
+  },
   birthDate: Date,
 
   pets: [{ type: String }],

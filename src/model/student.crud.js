@@ -1,17 +1,23 @@
 import { connect } from "../connect.js";
+import { createSchool } from "./school.crud.js";
 import { Student } from "./student.js";
+// get the school from the school.crud.js file:
+// new version er node.js e async function charao await use kora jay er jonne node.js globally asynchronous dore nibe:
 
 const createStudent = async () => {
   try {
     // connecting the db:
     await connect();
+    const school = await createSchool();
+
     const student = await Student.create({
-      firstName: "Tanvir",
-      lastName: "Rifat",
-      email: "tanvir15-14402@diu.edu.bd",
+      firstName: "Arafat",
+      lastName: "Farabi",
+      email: "arafat@gmail.com",
+      school: school._id,
       birthDate: new Date("2007-09-29"),
 
-      pets: ["cat", "dog", "cow"],
+      pets: ["cat", "dog", "cow", "goat"],
     });
     console.log(student);
   } catch (err) {
@@ -22,7 +28,10 @@ const createStudent = async () => {
 const getAllStudents = async () => {
   try {
     await connect();
-    const students = await Student.find({});
+    // select("-firstName -lastName") deoaar fole amake firstName and lastName property gula dekhabe na:
+    const students = await Student.find({})
+      .select("-firstName -lastName")
+      .exec();
     console.log(students);
   } catch (err) {
     console.log(err);
@@ -33,7 +42,10 @@ const getStudentById = async () => {
   try {
     await connect();
     // exec() is used to execute the query:
-    const student = await Student.findById("6492a7ad8c0035b17c1902d9").exec();
+    // populate('school') deoaar fole amake pura school object ti ei dibe schools collection theke ar populate na dile shudu school id ta dibe:
+    const student = await Student.findById("6493d11643250b9b39e42f0c")
+      .populate("school")
+      .exec();
     console.log(student);
   } catch (err) {
     console.log(err);
@@ -68,4 +80,4 @@ const removeStudentById = async () => {
 
 // createStudent();
 
-getStudentById("6492a7ad8c0035b17c1902d9");
+getAllStudents();
