@@ -5,10 +5,11 @@ export const createSchool = async () => {
   try {
     await connect();
     const firstSchool = {
-      name: "DIU",
-      openSince: 2002,
-      students: 4000,
-      isGreat: false,
+      name: "UIU",
+      openSince: 2005,
+      students: 10000,
+      isGreat: true,
+      staff: ["Tanvir", "Rifat", "Arafat", "Farabi"],
     };
     const secondSchool = {
       name: "EWU",
@@ -16,11 +17,13 @@ export const createSchool = async () => {
       students: 5000,
       isGreat: true,
     };
-    const school = await School.create([firstSchool, secondSchool]);
+
+    const school = await School.create(firstSchool);
     // find one:
-    const match = await School.findOne({ students: { $gt: 4000 } }).exec();
-    console.log(match);
-    return school;
+    // const match = await School.findOne({ students: { $gt: 4000 } }).exec();
+    // console.log(match);
+    console.log(school.staffCount);
+    // return school;
   } catch (err) {
     console.log(err);
   }
